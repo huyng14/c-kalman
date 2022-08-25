@@ -50,34 +50,40 @@ void prediction_step(kalman_state *state)
 
 void update_step(kalman_state *state, float measurement)
 {
-    // Get z measurement
-    float z = measurement;
+    if (state->x[1] != -1.0)
+    {
+        // Get z measurement
+        float z = measurement;
 
-    // Predicted measurement
-    // float z_hat = state->x[1];
-    float z_hat = state->H[0] * state->x[0] + state->H[1] * state->x[1];
+        // Predicted measurement
+        // float z_hat = state->x[1];
+        float z_hat = state->H[0] * state->x[0] + state->H[1] * state->x[1];
 
-    // Innovation (error function between Measurement(z) and predicted measurement(z_hat))
-    float y = z - z_hat;
+        // Innovation (error function between Measurement(z) and predicted measurement(z_hat))
+        float y = z - z_hat;
 
-    // Kalman gain
-    float K[2];
-    float temp0 = 0.0f;
-    float temp1 = 0.0f;
-    float temp = 0.0f;
-    temp0 = state->p[0][0] * state->H[0] + state->p[0][1] * state->H[1];
-    temp1 = state->p[1][0] * state->H[0] + state->p[1][1] * state->H[1];
-    temp  = state->r + state->H[0] * temp0 + state->H[1] * temp1;
-    K[0] = temp0 / temp;
-    K[1] = temp1 / temp;
+        // Kalman gain
+        float K[2];
+        float temp0 = 0.0f;
+        float temp1 = 0.0f;
+        float temp = 0.0f;
+        temp0 = state->p[0][0] * state->H[0] + state->p[0][1] * state->H[1];
+        temp1 = state->p[1][0] * state->H[0] + state->p[1][1] * state->H[1];
+        temp  = state->r + state->H[0] * temp0 + state->H[1] * temp1;
+        K[0] = temp0 / temp;
+        K[1] = temp1 / temp;
 
-    // State Update
-    state->x[0] = state->x[0] + K[0] * y;
-    state->x[1] = state->x[1] + K[1] * y;
+        // State Update
+        state->x[0] = state->x[0] + K[0] * y;
+        state->x[1] = state->x[1] + K[1] * y;
 
-    // Covariance Update
-    state->p[0][0] = (1 - K[0] * state->H[0]) * state->p[0][0];
-    state->p[0][1] = (1 - K[0] * state->H[1]) * state->p[0][1];
-    state->p[1][0] = (1 - K[1] * state->H[0]) * state->p[1][0];
-    state->p[1][1] = (1 - K[1] * state->H[1]) * state->p[1][1];
+        // Covariance Update
+        state->p[0][0] = (1 - K[0] * state->H[0]) * state->p[0][0];
+        state->p[0][1] = (1 - K[0] * state->H[1]) * state->p[0][1];
+        state->p[1][0] = (1 - K[1] * state->H[0]) * state->p[1][0];
+        state->p[1][1] = (1 - K[1] * state->H[1]) * state->p[1][1];
+    }
+    else {
+        state->x[1] = measurement;
+    }
 }

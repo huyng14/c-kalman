@@ -9,7 +9,7 @@ int main(){
     init_parameter.init_pos_std = 0.0;
     init_parameter.init_vel_std = 0.0;
     init_parameter.init_position = 0.0;
-    init_parameter.init_velocity = 0.0;
+    init_parameter.init_velocity = -1.0;
     init_parameter.acceleration_std = 0.0015;
     init_parameter.measurement_std = 0.75;
 
@@ -17,7 +17,7 @@ int main(){
 
     initialization(&state, init_parameter);
 
-    FILE *file = fopen("../dataset/wheel1.txt","r");
+    FILE *file = fopen("../dataset/wheel1_15k-25k.txt","r");
     FILE *fposition = fopen("../results/result_position.txt","w+");
     FILE *fvelocity = fopen("../results/result_velocity.txt","w+");
     

@@ -1,8 +1,17 @@
+# Directories
 IDIR=../include
 CC=gcc
 CFLAGS=-I.
 ODIR=../object
 
+.PHONY: all clean directories
+
+all: directories kalman
+
+directories:
+	$(shell mkdir -p $(ODIR))
+
+# Building
 _DEPS = kalman.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
@@ -16,8 +25,5 @@ $(ODIR)/%.o: %.c $(DEPS)
 kalman: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-.PHONY: clean
-
-	# rm -f kalman ../results/* core $(INCDIR)/*~
 clean:
 	rm -f kalman $(ODIR)/*.o ../results/* core $(INCDIR)/*~

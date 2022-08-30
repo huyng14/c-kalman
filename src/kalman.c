@@ -49,7 +49,6 @@ void update_step(kalman_state *state, float measurement)
         float K;
         K = state->p * state->H / (state->p * state->H * state->H + state->r);
 
-
         // State Update
         state->x = state->x + K * y;
 

@@ -1,3 +1,4 @@
+from cProfile import label
 import os
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -25,8 +26,10 @@ fig1_ax1.grid(True)
 fig1_ax1.set_xlabel('Time (sec)')
 fig1_ax1.set_ylabel('Velocity')
 
-fig1_ax1.plot(time_plot, velocity,'#1f77b4')
-fig1_ax1.plot(time_plot, draw_fvelocity, '#ff7f0e')
+fig1_ax1.plot(time_plot, velocity,'#1f77b4', label="measured speed")
+fig1_ax1.plot(time_plot, draw_fvelocity, '#ff7f0e', label="estimated speed")
 fig1_ax1.plot(time_plot, different_velocity, 'blue')
 
+plt.legend(loc="upper left")
+plt.ylim(0.0, 200.0)
 plt.show()

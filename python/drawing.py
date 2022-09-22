@@ -1,4 +1,3 @@
-from cProfile import label
 import os
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -11,11 +10,10 @@ with open(path_to_file + "results/result_velocity.txt", "r") as file3:
 
 time_plot = [t*0.1 for t in range(0, len(draw_fvelocity))]
 
-i = 0
 different_velocity = []
-while i < len(velocity):
+
+for i in range(len(velocity)):
     different_velocity.append(abs(velocity[i] - draw_fvelocity[i]))
-    i+=1
 
 fig1 = plt.figure(constrained_layout=True)
 fig1_gs = gridspec.GridSpec(ncols=1, nrows=1, figure=fig1)
